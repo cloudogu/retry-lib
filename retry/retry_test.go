@@ -11,22 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// testableRetryFunc returns true if the returned error is a testableRetrierError and indicates that an action should be tried until the retrier hits its limit.
-var testableRetryFunc = func(err error) bool {
-	_, ok := err.(*testableRetrierError)
-	return ok
-}
-
-// testableRetrierError marks errors that indicate that a previously executed action should be retried with again. It must wrap an existing error.
-type testableRetrierError struct {
-	Err error
-}
-
-// Error returns the error's string representation.
-func (tre *testableRetrierError) Error() string {
-	return tre.Err.Error()
-}
-
 func Test_OnErrorRetry(t *testing.T) {
 	t.Run("should succeed", func(t *testing.T) {
 		// given
@@ -133,17 +117,17 @@ func Test_OnConflict(t *testing.T) {
 	})
 }
 
-func Test_testableRetrierError(t *testing.T) {
-	sut := new(testableRetrierError)
+func Test_TestableRetrierError(t *testing.T) {
+	sut := new(TestableRetrierError)
 	sut.Err = assert.AnError
 	require.Error(t, sut)
 	assert.ErrorContains(t, sut, assert.AnError.Error())
 }
 
-func Test_testableRetryFunc(t *testing.T) {
-	assert.False(t, testableRetryFunc(nil))
-	assert.False(t, testableRetryFunc(assert.AnError))
-	retrierErr := new(testableRetrierError)
+func Test_TestableRetryFunc(t *testing.T) {
+	assert.False(t, TestableRetryFunc(nil))
+	assert.False(t, TestableRetryFunc(assert.AnError))
+	retrierErr := new(TestableRetrierError)
 	retrierErr.Err = assert.AnError
-	assert.True(t, testableRetryFunc(retrierErr))
+	assert.True(t, TestableRetryFunc(retrierErr))
 }
