@@ -100,6 +100,7 @@ func Test_OnConflict(t *testing.T) {
 
 		// then
 		require.NoError(t, err)
+		assert.Equal(t, 2, retryCount)
 	})
 	t.Run("should fail", func(t *testing.T) {
 		// given
