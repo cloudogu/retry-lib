@@ -98,7 +98,7 @@ void stageStaticAnalysisSonarQube() {
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.branch.name=${env.BRANCH_NAME}"
         } else {
             echo "This branch has been detected as a miscellaneous branch."
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.branch.name=${env.BRANCH_NAME} "
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.branch.name=${env.BRANCH_NAME}"
         }
     }
     timeout(time: 2, unit: 'MINUTES') { // Needed when there is no webhook for example
