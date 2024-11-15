@@ -8,13 +8,13 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
-// testableRetryFunc returns true if the returned error is a testableRetrierError and indicates that an action should be tried until the retrier hits its limit.
+// TestableRetryFunc returns true if the returned error is a testableRetrierError and indicates that an action should be tried until the retrier hits its limit.
 var TestableRetryFunc = func(err error) bool {
 	_, ok := err.(*TestableRetrierError)
 	return ok
 }
 
-// testableRetrierError marks errors that indicate that a previously executed action should be retried with again. It must wrap an existing error.
+// TestableRetrierError marks errors that indicate that a previously executed action should be retried with again. It must wrap an existing error.
 type TestableRetrierError struct {
 	Err error
 }
